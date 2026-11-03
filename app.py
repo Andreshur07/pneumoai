@@ -345,7 +345,7 @@ with col_izq:
                 st.image(
                     imagen,
                     caption="Imagen seleccionada",
-                    use_container_width=True
+                    width="stretch"
                 )
 
             except (UnidentifiedImageError, OSError):
@@ -354,7 +354,7 @@ with col_izq:
         analizar = st.button(
             "Analizar radiografía",
             type="primary",
-            use_container_width=True,
+            width="stretch",
             disabled=imagen is None
         )
 
