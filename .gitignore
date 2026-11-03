@@ -1,0 +1,11 @@
+/*
+!/.gitignore
+!/app.py
+!/requirements.txt
+!/.streamlit/
+/.streamlit/*
+!/.streamlit/config.toml
+!/modelos/
+/modelos/*
+!/modelos/configuracion_modelo.json
+!/modelos/mejor_modelo_corregido.keras

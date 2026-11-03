@@ -1,0 +1,13 @@
+{
+    "modelo": "mejor_modelo_corregido.keras",
+    "umbral": 0.2,
+    "clases": [
+        "NORMAL",
+        "PNEUMONIA"
+    ],
+    "tamano_imagen": [
+        224,
+        224
+    ],
+    "normalizacion": "mobilenet_v2.preprocess_input"
+}
