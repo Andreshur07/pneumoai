@@ -1,5 +1,7 @@
 
+import base64
 import json
+from io import BytesIO
 from pathlib import Path
 
 import numpy as np
@@ -342,11 +344,17 @@ with col_izq:
                 imagen = Image.open(archivo)
                 imagen.load()
 
-                st.image(
-                    imagen,
-                    caption="Imagen seleccionada",
-                    width="stretch"
+                vista_previa = imagen.convert("RGB")
+                vista_previa.thumbnail((1024, 1024))
+                with BytesIO() as buffer:
+                    vista_previa.save(buffer, format="JPEG", quality=90)
+                    contenido = base64.b64encode(buffer.getvalue()).decode("ascii")
+
+                st.html(
+                    f'<img src="data:image/jpeg;base64,{contenido}" '
+                    'alt="Radiografía seleccionada" style="display:block;width:100%;height:auto">'
                 )
+                st.caption("Imagen seleccionada")
 
             except (UnidentifiedImageError, OSError):
                 st.error("El archivo no contiene una imagen válida.")
