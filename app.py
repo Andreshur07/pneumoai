@@ -4,9 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import streamlit as st
-import tensorflow as tf
 from PIL import Image, UnidentifiedImageError
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 
 # =========================================
@@ -33,7 +31,9 @@ def cargar_configuracion():
 
 @st.cache_resource
 def cargar_modelo(ruta):
-    return tf.keras.models.load_model(ruta)
+    import tensorflow as tf
+
+    return tf.keras.models.load_model(ruta, compile=False)
 
 
 config = cargar_configuracion()
@@ -41,7 +41,6 @@ UMBRAL = float(config["umbral"])
 IMG_SIZE = tuple(config["tamano_imagen"])
 MODEL_PATH = MODELOS_DIR / config["modelo"]
 
-modelo = cargar_modelo(str(MODEL_PATH))
 
 
 
@@ -254,6 +253,9 @@ st.markdown("""
 # =========================================
 
 def preparar_radiografia(imagen):
+    import tensorflow as tf
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+
     imagen = imagen.convert("RGB")
     imagen = np.asarray(imagen)
 
@@ -374,6 +376,7 @@ with col_der:
             with st.spinner("Procesando radiografía..."):
                 tensor = preparar_radiografia(imagen)
 
+                modelo = cargar_modelo(str(MODEL_PATH))
                 salida = modelo.predict(
                     tensor,
                     verbose=0
